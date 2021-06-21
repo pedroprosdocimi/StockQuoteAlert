@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pedro\\source\\repos\\StockQuoteAlert\\StockQuoteAlert\\StockQuoteAlert.csproj": {}
+    "C:\\Users\\pedro\\source\\repos\\StockQuoteAlert\\UseCases\\UseCases.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pedro\\source\\repos\\StockQuoteAlert\\StockQuoteAlert\\StockQuoteAlert.csproj": {
+    "C:\\Users\\pedro\\source\\repos\\StockQuoteAlert\\UseCases\\UseCases.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pedro\\source\\repos\\StockQuoteAlert\\StockQuoteAlert\\StockQuoteAlert.csproj",
-        "projectName": "StockQuoteAlert",
-        "projectPath": "C:\\Users\\pedro\\source\\repos\\StockQuoteAlert\\StockQuoteAlert\\StockQuoteAlert.csproj",
+        "projectUniqueName": "C:\\Users\\pedro\\source\\repos\\StockQuoteAlert\\UseCases\\UseCases.csproj",
+        "projectName": "UseCases",
+        "projectPath": "C:\\Users\\pedro\\source\\repos\\StockQuoteAlert\\UseCases\\UseCases.csproj",
         "packagesPath": "C:\\Users\\pedro\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pedro\\source\\repos\\StockQuoteAlert\\StockQuoteAlert\\obj\\",
+        "outputPath": "C:\\Users\\pedro\\source\\repos\\StockQuoteAlert\\UseCases\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pedro\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -39,12 +39,6 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "dependencies": {
-            "System.Configuration.ConfigurationManager": {
-              "target": "Package",
-              "version": "[5.0.0, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",

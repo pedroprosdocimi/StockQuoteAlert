@@ -1,8 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "kwBqUjMvAwnjhiWGnG/5plDEgTNH4M2saGn/PBjr4RshiRZUWgbSTyQxqfogoC8Sb/rcpKcRLOJwM9zCe2G0cQ==",
+  "dgSpecHash": "adJGy4ynXM465NYSiYcMPIjdxEGQtjPGdJIPRWiv65AVK0nqJ7HD8GCaFvanGl+FvkbpBGc3BTQgc5FymjNxtw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\pedro\\source\\repos\\StockQuoteAlert\\StockQuoteAlert\\StockQuoteAlert.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\pedro\\source\\repos\\StockQuoteAlert\\StockQuoteAlert\\Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\pedro\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
+    "C:\\Users\\pedro\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
+    "C:\\Users\\pedro\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",
+    "C:\\Users\\pedro\\.nuget\\packages\\system.drawing.common\\5.0.0\\system.drawing.common.5.0.0.nupkg.sha512",
+    "C:\\Users\\pedro\\.nuget\\packages\\system.security.accesscontrol\\5.0.0\\system.security.accesscontrol.5.0.0.nupkg.sha512",
+    "C:\\Users\\pedro\\.nuget\\packages\\system.security.cryptography.protecteddata\\5.0.0\\system.security.cryptography.protecteddata.5.0.0.nupkg.sha512",
+    "C:\\Users\\pedro\\.nuget\\packages\\system.security.permissions\\5.0.0\\system.security.permissions.5.0.0.nupkg.sha512",
+    "C:\\Users\\pedro\\.nuget\\packages\\system.security.principal.windows\\5.0.0\\system.security.principal.windows.5.0.0.nupkg.sha512",
+    "C:\\Users\\pedro\\.nuget\\packages\\system.windows.extensions\\5.0.0\\system.windows.extensions.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
