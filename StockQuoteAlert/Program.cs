@@ -1,12 +1,69 @@
-﻿using System;
+﻿using Batch.Controllers;
+using Borders.Configs;
+using Borders.Dtos;
+using Borders.Repositories;
+using Borders.UseCases;
+using Borders.Validators;
+using FluentValidation;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Repositories;
+using System;
+using System.Net;
+using System.Net.Mail;
+using UseCases;
 
 namespace StockQuoteAlert
 {
     class Program
     {
+        private readonly QuoteAlertController quoteAlertController;
+
+        public Program(QuoteAlertController quoteAlertController)
+        {
+            this.quoteAlertController = quoteAlertController;
+        }
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var host = CreateHostBuilder(args).Build();
+            host.Services.GetRequiredService<Program>().Run();
+        }
+
+        public void Run()
+        {
+            try
+            {
+                quoteAlertController.Monitor().Wait();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        private static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            var applicationConfig = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: false)
+            .Build().Get<ApplicationConfig>();
+
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureServices(services =>
+                {                    
+                    services.AddTransient<Program>();
+                    services.AddSingleton<IValidator<QuoteMonitoringRequest>, QuoteMonitoringRequestValidator>();
+                    services.AddSingleton<ApplicationConfig>(applicationConfig);
+                    services.AddSingleton<QuoteAlertController>();
+                    services.AddSingleton<IQuoteMonitoringUseCase, QuoteMonitoringUseCase>();
+                    services.AddHttpClient<IStockQuotationRepository, StockQuotationRepository>(client =>
+                    {
+                        client.BaseAddress = new Uri(applicationConfig.HGConsole.BaseUrl);
+                    });                    
+                    services.AddSingleton<IEmailRepository, EmailRepository>();
+                    services.AddLogging();
+                });
         }
     }
 }
