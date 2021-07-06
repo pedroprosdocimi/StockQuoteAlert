@@ -1,9 +1,9 @@
 ﻿using Borders.Configs;
 using Borders.Dtos;
+using Borders.Exceptions;
 using Borders.Repositories;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -14,10 +14,9 @@ namespace Repositories
     {
         private readonly HttpClient httpClient;
         private readonly ApplicationConfig applicationConfig;
-        private readonly ILogger logger;
+        private readonly ILogger<StockQuotationRepository> logger;
 
-        public StockQuotationRepository(HttpClient httpClient, ApplicationConfig applicationConfig, 
-            ILogger<StockQuotationRepository> logger)
+        public StockQuotationRepository(HttpClient httpClient, ApplicationConfig applicationConfig, ILogger<StockQuotationRepository> logger)
         {
             this.httpClient = httpClient;
             this.applicationConfig = applicationConfig;
@@ -29,13 +28,23 @@ namespace Repositories
             using var httpResponse = await httpClient.GetAsync($"/finance/stock_price?key={applicationConfig.ApiKey}&symbol={request}");
 
             if (!httpResponse.IsSuccessStatusCode)
-                throw new Exception($"Error when trying to get {request} price information. " +
+            {
+                logger.LogInformation($"An error occurred when trying to get {request} price information.");
+                throw new StockQuotationException($"Error when trying to get {request} price information. " +
                     $"ErrorCode: {httpResponse.StatusCode}.");
-               
-            var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
-            return GetStockQuoteInfo(jsonResponse, request);
-            
-                                  
+            }
+
+            try
+            {
+                var jsonResponse = await httpResponse.Content.ReadAsStringAsync();
+
+                return GetStockQuoteInfo(jsonResponse, request);
+            }
+            catch
+            {
+                logger.LogInformation($"Unexpected error at StockQuotationRepository");
+                throw new StockQuotationException("Unexpected error at StockQuotationRepository");
+            }
         }
 
         private StockResult GetStockQuoteInfo(string jsonResponse, string request)
@@ -43,15 +52,15 @@ namespace Repositories
             object resultObject;
             object stocksInfoObject;
 
-            var resultDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonResponse);            
+            var resultDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonResponse);
             resultDictionary.TryGetValue("results", out resultObject);
 
             var stocksInfoPayload = JsonConvert.SerializeObject(resultObject);
-            var stocksInfoDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(stocksInfoPayload);            
+            var stocksInfoDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(stocksInfoPayload);
             stocksInfoDictionary.TryGetValue(request, out stocksInfoObject);
 
             var requestedStockInfo = JsonConvert.SerializeObject(stocksInfoObject);
-            
+
             return JsonConvert.DeserializeObject<StockResult>(requestedStockInfo);
         }
     }

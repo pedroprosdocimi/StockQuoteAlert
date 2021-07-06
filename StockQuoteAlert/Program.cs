@@ -10,8 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Repositories;
 using System;
-using System.Net;
-using System.Net.Mail;
 using UseCases;
 
 namespace StockQuoteAlert
@@ -35,7 +33,15 @@ namespace StockQuoteAlert
         {
             try
             {
-                quoteAlertController.Monitor().Wait();
+                var input = Console.ReadLine();
+                var inputList = input.Split(" ");
+                var request = new QuoteMonitoringRequest(inputList[0], float.Parse(inputList[1]), float.Parse(inputList[2]));
+
+                while (true)
+                {
+                    quoteAlertController.Monitor(request).Wait();
+                    System.Threading.Thread.Sleep(300000); //waiting 5 minutes to get the value.
+                }
             }
             catch (Exception e)
             {
@@ -51,7 +57,7 @@ namespace StockQuoteAlert
 
             return Host.CreateDefaultBuilder(args)
                 .ConfigureServices(services =>
-                {                    
+                {
                     services.AddTransient<Program>();
                     services.AddSingleton<IValidator<QuoteMonitoringRequest>, QuoteMonitoringRequestValidator>();
                     services.AddSingleton<ApplicationConfig>(applicationConfig);
@@ -60,7 +66,7 @@ namespace StockQuoteAlert
                     services.AddHttpClient<IStockQuotationRepository, StockQuotationRepository>(client =>
                     {
                         client.BaseAddress = new Uri(applicationConfig.HGConsole.BaseUrl);
-                    });                    
+                    });
                     services.AddSingleton<IEmailRepository, EmailRepository>();
                     services.AddLogging();
                 });

@@ -1,7 +1,4 @@
 ﻿namespace Borders.Dtos
 {
-    public record StockResult
-    {
-        public double Price { get; init; }
-    }
+    public record StockResult( double Price );
 }

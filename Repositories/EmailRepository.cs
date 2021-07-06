@@ -1,4 +1,5 @@
 ﻿using Borders.Configs;
+using Borders.Exceptions;
 using Borders.Repositories;
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -33,8 +34,7 @@ namespace Repositories
             catch (Exception e)
             {
                 logger.LogInformation($"An error occurred when trying to send email to {receiverEmail}. Error: {e.Message}");
-
-                throw new Exception($"Error when trying to send email to {receiverEmail}.");
+                throw new EmailRepositoryException($"Error when trying to send email to {receiverEmail}.");
             }
         }
 
